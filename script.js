@@ -41,6 +41,12 @@ window.addEventListener('scroll', () => {
 const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', function(e) {
+    // Check if using Netlify forms (has data-netlify attribute)
+    if (contactForm.hasAttribute('data-netlify')) {
+        // Let Netlify handle the form submission naturally
+        return true;
+    }
+    
     // Check if using Formspree (has action attribute)
     if (contactForm.getAttribute('action') && contactForm.getAttribute('action').includes('formspree')) {
         // Let Formspree handle the submission naturally
@@ -70,7 +76,7 @@ contactForm.addEventListener('submit', function(e) {
         return;
     }
     
-    // If using PHP backend
+    // If using PHP backend (fallback for traditional hosting)
     if (window.location.protocol !== 'file:') {
         fetch('contact.php', {
             method: 'POST',

@@ -89,25 +89,32 @@ To change colors, search and replace these hex codes in the CSS file.
 
 ## 🌐 Deployment Options
 
-### 1. GitHub Pages (Free)
-1. Create a GitHub repository
-2. Upload all files
-3. Go to Settings > Pages
-4. Select source branch
-5. Your site will be available at `https://yourusername.github.io/repository-name`
+### 🚀 **Quick Deploy (Recommended)**
 
-### 2. Netlify (Free)
-1. Create account on Netlify
-2. Drag and drop the portfolio folder
-3. Get instant deployment with custom domain options
+**Option 1: Netlify** ⭐
+1. Fork this repository to your GitHub account
+2. Go to [Netlify](https://netlify.com) and sign in with GitHub  
+3. Click "Add new site" → "Import an existing project"
+4. Select your repository and deploy
+5. **Done!** Your site is live with working contact forms
 
-### 3. Vercel (Free)
-1. Create account on Vercel
-2. Connect your GitHub repository
-3. Automatic deployment on every commit
+**Option 2: Vercel** ⚡
+1. Fork this repository to your GitHub account
+2. Go to [Vercel](https://vercel.com) and sign in with GitHub
+3. Click "Add New" → "Project" → Import your repository
+4. Deploy instantly
 
-### 4. Traditional Web Hosting
-Upload all files to your hosting provider's public_html or www folder.
+**Option 3: GitHub Pages** 📚
+1. Fork this repository
+2. Go to Settings → Pages
+3. Select source: Deploy from branch `main`
+4. Your site will be live at `https://[username].github.io/portfolio-website`
+
+### 📧 Contact Form Setup
+- **Netlify**: Works automatically ✅
+- **Vercel/GitHub Pages**: Requires [Formspree](https://formspree.io) setup (see [DEPLOYMENT.md](DEPLOYMENT.md))
+
+> **📖 Need detailed instructions?** Check out [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide!
 
 ## 📱 Mobile Responsiveness
 
