@@ -40,14 +40,23 @@ window.addEventListener('scroll', () => {
 // Contact form handling
 const contactForm = document.getElementById('contact-form');
 
+if (contactForm) {
+    console.log('Contact form found and ready');
+} else {
+    console.error('Contact form not found');
+}
+
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
+    console.log('Form submitted - using mailto approach');
     
     // Get form data for validation
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const subject = document.getElementById('subject-input').value.trim();
     const message = document.getElementById('message').value.trim();
+    
+    console.log('Form data:', { name, email, subject, message });
     
     // Basic validation
     if (!name || !email || !subject || !message) {
@@ -75,6 +84,7 @@ contactForm.addEventListener('submit', function(e) {
     
     // Create mailto link
     const mailtoLink = `mailto:architjain2501@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+    console.log('Opening mailto link:', mailtoLink);
     
     // Try to open email client
     try {
@@ -87,6 +97,7 @@ contactForm.addEventListener('submit', function(e) {
         }, 3000);
         
     } catch (error) {
+        console.error('Error opening email client:', error);
         showNotification('Please email me directly at: architjain2501@gmail.com', 'info');
     }
 });
