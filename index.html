@@ -335,12 +335,12 @@
                     </div>
                 </div>
                 <div class="contact-form-container">
-                    <form class="contact-form" id="contact-form" action="https://formspree.io/f/mzzbjweo" method="POST">
+                    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xpwzgbpg" method="POST">
                         <div class="form-group">
                             <input type="text" id="name" name="name" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
                             <input type="text" id="subject" name="subject" placeholder="Subject" required>
@@ -348,6 +348,8 @@
                         <div class="form-group">
                             <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
                         </div>
+                        <input type="hidden" name="_next" value="https://archit2501.github.io/portfolio-website/">
+                        <input type="hidden" name="_subject" value="New Portfolio Contact Message">
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
                 </div>

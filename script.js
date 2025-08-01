@@ -42,17 +42,16 @@ const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', function(e) {
     // Get form data for validation
-    const formData = new FormData(contactForm);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
     
     // Basic validation
     if (!name || !email || !subject || !message) {
         e.preventDefault();
         showNotification('Please fill in all fields', 'error');
-        return;
+        return false;
     }
     
     // Email validation
@@ -60,13 +59,18 @@ contactForm.addEventListener('submit', function(e) {
     if (!emailRegex.test(email)) {
         e.preventDefault();
         showNotification('Please enter a valid email address', 'error');
-        return;
+        return false;
     }
     
-    // If validation passes, show success message
-    setTimeout(() => {
-        showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-    }, 100);
+    // Show loading state
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    
+    // Let the form submit naturally to Formspree
+    // The page will redirect or show Formspree's success page
+    return true;
 });
 
 // Notification system
