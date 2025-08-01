@@ -41,16 +41,7 @@ window.addEventListener('scroll', () => {
 const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', function(e) {
-    // Check if using Formspree (has action attribute)
-    if (contactForm.getAttribute('action') && contactForm.getAttribute('action').includes('formspree')) {
-        // Let Formspree handle the submission naturally
-        return true;
-    }
-    
-    // For other methods, prevent default and handle with JavaScript
-    e.preventDefault();
-    
-    // Get form data
+    // Get form data for validation
     const formData = new FormData(contactForm);
     const name = formData.get('name');
     const email = formData.get('email');
@@ -59,6 +50,7 @@ contactForm.addEventListener('submit', function(e) {
     
     // Basic validation
     if (!name || !email || !subject || !message) {
+        e.preventDefault();
         showNotification('Please fill in all fields', 'error');
         return;
     }
@@ -66,33 +58,15 @@ contactForm.addEventListener('submit', function(e) {
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+        e.preventDefault();
         showNotification('Please enter a valid email address', 'error');
         return;
     }
     
-    // If using PHP backend
-    if (window.location.protocol !== 'file:') {
-        fetch('contact.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showNotification(data.message, 'success');
-                contactForm.reset();
-            } else {
-                showNotification(data.message, 'error');
-            }
-        })
-        .catch(error => {
-            showNotification('Error sending message. Please try again.', 'error');
-        });
-    } else {
-        // Fallback for file:// protocol (local testing)
-        showNotification('Message received! (Demo mode - deploy to server for actual functionality)', 'success');
-        contactForm.reset();
-    }
+    // If validation passes, show success message
+    setTimeout(() => {
+        showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+    }, 100);
 });
 
 // Notification system
