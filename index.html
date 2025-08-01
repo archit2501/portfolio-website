@@ -335,7 +335,7 @@
                     </div>
                 </div>
                 <div class="contact-form-container">
-                    <form class="contact-form" id="contact-form" action="https://formspree.io/f/architjain2501@gmail.com" method="POST">
+                    <form class="contact-form" id="contact-form" method="POST">
                         <div class="form-group">
                             <input type="text" id="name" name="name" placeholder="Your Name" required>
                         </div>
@@ -343,14 +343,16 @@
                             <input type="email" id="email" name="email" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                            <input type="text" id="subject-input" name="subject" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
                             <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
                         </div>
-                        <input type="hidden" name="_subject" value="New message from portfolio website">
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
+                    <div class="contact-alternative">
+                        <p><strong>Alternative:</strong> Email me directly at <a href="mailto:architjain2501@gmail.com">architjain2501@gmail.com</a></p>
+                    </div>
                 </div>
             </div>
         </div>

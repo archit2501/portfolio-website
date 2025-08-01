@@ -702,6 +702,32 @@ body {
     min-height: 120px;
 }
 
+.contact-alternative {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contact-alternative p {
+    color: white;
+    margin: 0;
+}
+
+.contact-alternative a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.contact-alternative a:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+}
+
 /* Footer */
 .footer {
     background: #1a1a1a;

@@ -46,7 +46,7 @@ contactForm.addEventListener('submit', function(e) {
     // Get form data for validation
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value.trim();
+    const subject = document.getElementById('subject-input').value.trim();
     const message = document.getElementById('message').value.trim();
     
     // Basic validation
@@ -62,40 +62,33 @@ contactForm.addEventListener('submit', function(e) {
         return false;
     }
     
-    // Show loading state
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
+    // Create email content
+    const emailSubject = encodeURIComponent(`Portfolio Contact: ${subject}`);
+    const emailBody = encodeURIComponent(
+        `Hello Archit,\n\n` +
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Subject: ${subject}\n\n` +
+        `Message:\n${message}\n\n` +
+        `Best regards,\n${name}`
+    );
     
-    // Submit to Formspree
-    const formData = new FormData(contactForm);
+    // Create mailto link
+    const mailtoLink = `mailto:architjain2501@gmail.com?subject=${emailSubject}&body=${emailBody}`;
     
-    fetch(contactForm.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
-    }).then(response => {
-        if (response.ok) {
-            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
-            contactForm.reset();
-        } else {
-            response.json().then(data => {
-                if (Object.hasOwnProperty.call(data, 'errors')) {
-                    showNotification(data["errors"].map(error => error["message"]).join(", "), 'error');
-                } else {
-                    showNotification('There was a problem sending your message. Please try again.', 'error');
-                }
-            });
-        }
-    }).catch(error => {
-        showNotification('There was a problem sending your message. Please try again.', 'error');
-    }).finally(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
+    // Try to open email client
+    try {
+        window.location.href = mailtoLink;
+        showNotification('Opening your email client... If it doesn\'t open, please copy the email address and send manually.', 'success');
+        
+        // Show additional instructions after a delay
+        setTimeout(() => {
+            showNotification('You can also email directly at: architjain2501@gmail.com', 'info');
+        }, 3000);
+        
+    } catch (error) {
+        showNotification('Please email me directly at: architjain2501@gmail.com', 'info');
+    }
 });
 
 // Notification system
