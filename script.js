@@ -41,6 +41,8 @@ window.addEventListener('scroll', () => {
 const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
     // Get form data for validation
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -49,7 +51,6 @@ contactForm.addEventListener('submit', function(e) {
     
     // Basic validation
     if (!name || !email || !subject || !message) {
-        e.preventDefault();
         showNotification('Please fill in all fields', 'error');
         return false;
     }
@@ -57,7 +58,6 @@ contactForm.addEventListener('submit', function(e) {
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        e.preventDefault();
         showNotification('Please enter a valid email address', 'error');
         return false;
     }
@@ -68,9 +68,34 @@ contactForm.addEventListener('submit', function(e) {
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
     
-    // Let the form submit naturally to Formspree
-    // The page will redirect or show Formspree's success page
-    return true;
+    // Submit to Formspree
+    const formData = new FormData(contactForm);
+    
+    fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+            contactForm.reset();
+        } else {
+            response.json().then(data => {
+                if (Object.hasOwnProperty.call(data, 'errors')) {
+                    showNotification(data["errors"].map(error => error["message"]).join(", "), 'error');
+                } else {
+                    showNotification('There was a problem sending your message. Please try again.', 'error');
+                }
+            });
+        }
+    }).catch(error => {
+        showNotification('There was a problem sending your message. Please try again.', 'error');
+    }).finally(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
 });
 
 // Notification system
