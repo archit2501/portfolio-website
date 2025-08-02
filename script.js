@@ -11,6 +11,20 @@ document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', 
     navMenu.classList.remove('active');
 }));
 
+// Navbar entrance animation on page load
+window.addEventListener('load', () => {
+    const navbar = document.querySelector('.navbar');
+    navbar.style.opacity = '0';
+    navbar.style.transform = 'translateY(-100%) translateZ(0)';
+    
+    // Animate in after page loads
+    setTimeout(() => {
+        navbar.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        navbar.style.opacity = '1';
+        navbar.style.transform = 'translateY(0) translateZ(0)';
+    }, 100);
+});
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -25,44 +39,66 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background change on scroll (optimized for performance)
+// Navbar scroll behavior with hide/show animation (optimized for performance)
 let isScrolling = false;
+let lastScrollTop = 0;
+let scrollDirection = 'down';
+
+function updateNavbar() {
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navLogo = document.querySelector('.nav-logo a');
+    const bars = document.querySelectorAll('.bar');
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Determine scroll direction
+    if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
+        scrollDirection = 'down';
+    } else {
+        scrollDirection = 'up';
+    }
+    
+    // Hide navbar when scrolling down, show when scrolling up
+    if (scrollDirection === 'down' && currentScrollTop > 100) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
+    
+    // Change navbar appearance based on scroll position
+    if (currentScrollTop > 100) {
+        // Scrolled state - white background, dark text
+        navbar.classList.add('scrolled');
+        navLogo.style.color = '#2563eb';
+        navLogo.style.textShadow = 'none';
+        navLinks.forEach(link => {
+            link.style.color = '#333';
+            link.style.textShadow = 'none';
+        });
+        bars.forEach(bar => {
+            bar.style.backgroundColor = '#333';
+        });
+    } else {
+        // Top state - transparent background, white text
+        navbar.classList.remove('scrolled');
+        navLogo.style.color = 'white';
+        navLogo.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
+        navLinks.forEach(link => {
+            link.style.color = 'white';
+            link.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
+        });
+        bars.forEach(bar => {
+            bar.style.backgroundColor = 'white';
+        });
+    }
+    
+    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+}
 
 window.addEventListener('scroll', () => {
     if (!isScrolling) {
-        window.requestAnimationFrame(() => {
-            const navbar = document.querySelector('.navbar');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const navLogo = document.querySelector('.nav-logo a');
-            const bars = document.querySelectorAll('.bar');
-            
-            if (window.scrollY > 100) {
-                // Scrolled state - white background, dark text
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-                navLogo.style.color = '#2563eb';
-                navLogo.style.textShadow = 'none';
-                navLinks.forEach(link => {
-                    link.style.color = '#333';
-                    link.style.textShadow = 'none';
-                });
-                bars.forEach(bar => {
-                    bar.style.backgroundColor = '#333';
-                });
-            } else {
-                // Top state - transparent background, white text
-                navbar.style.background = 'rgba(0, 0, 0, 0.1)';
-                navbar.style.boxShadow = 'none';
-                navLogo.style.color = 'white';
-                navLogo.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
-                navLinks.forEach(link => {
-                    link.style.color = 'white';
-                    link.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
-                });
-                bars.forEach(bar => {
-                    bar.style.backgroundColor = 'white';
-                });
-            }
+        requestAnimationFrame(() => {
+            updateNavbar();
             isScrolling = false;
         });
         isScrolling = true;
