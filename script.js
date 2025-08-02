@@ -25,17 +25,49 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background change on scroll
+// Navbar background change on scroll (optimized for performance)
+let isScrolling = false;
+
 window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
+    if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+            const navbar = document.querySelector('.navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navLogo = document.querySelector('.nav-logo a');
+            const bars = document.querySelectorAll('.bar');
+            
+            if (window.scrollY > 100) {
+                // Scrolled state - white background, dark text
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                navLogo.style.color = '#2563eb';
+                navLogo.style.textShadow = 'none';
+                navLinks.forEach(link => {
+                    link.style.color = '#333';
+                    link.style.textShadow = 'none';
+                });
+                bars.forEach(bar => {
+                    bar.style.backgroundColor = '#333';
+                });
+            } else {
+                // Top state - transparent background, white text
+                navbar.style.background = 'rgba(0, 0, 0, 0.1)';
+                navbar.style.boxShadow = 'none';
+                navLogo.style.color = 'white';
+                navLogo.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
+                navLinks.forEach(link => {
+                    link.style.color = 'white';
+                    link.style.textShadow = '0 1px 3px rgba(0, 0, 0, 0.3)';
+                });
+                bars.forEach(bar => {
+                    bar.style.backgroundColor = 'white';
+                });
+            }
+            isScrolling = false;
+        });
+        isScrolling = true;
     }
-});
+}, { passive: true });
 
 // Contact form handling
 const contactForm = document.getElementById('contact-form');
