@@ -50,6 +50,8 @@ function updateNavbar() {
     const navLogo = document.querySelector('.nav-logo a');
     const bars = document.querySelectorAll('.bar');
     const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const heroSection = document.querySelector('.hero');
+    const heroBackground = document.querySelector('.hero::before') || heroSection;
     
     // Determine scroll direction
     if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
@@ -63,6 +65,14 @@ function updateNavbar() {
         navbar.classList.add('hidden');
     } else {
         navbar.classList.remove('hidden');
+    }
+    
+    // Hide hero background when scrolled past hero section
+    const heroHeight = heroSection.offsetHeight;
+    if (currentScrollTop > heroHeight) {
+        heroSection.style.setProperty('--hero-opacity', '0');
+    } else {
+        heroSection.style.setProperty('--hero-opacity', '1');
     }
     
     // Change navbar appearance based on scroll position
