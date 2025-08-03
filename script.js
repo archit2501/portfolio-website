@@ -39,19 +39,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar scroll behavior with hide/show animation (optimized for performance)
+// Navbar scroll behavior with hide/show animation and parallax effect
 let isScrolling = false;
 let lastScrollTop = 0;
 let scrollDirection = 'down';
 
-function updateNavbar() {
+function updateNavbarAndParallax() {
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.nav-link');
     const navLogo = document.querySelector('.nav-logo a');
     const bars = document.querySelectorAll('.bar');
     const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const heroSection = document.querySelector('.hero');
-    const heroBackground = document.querySelector('.hero::before') || heroSection;
+    const heroBackground = document.querySelector('.hero-background');
     
     // Determine scroll direction
     if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
@@ -67,12 +67,16 @@ function updateNavbar() {
         navbar.classList.remove('hidden');
     }
     
-    // Hide hero background when scrolled past hero section
-    const heroHeight = heroSection.offsetHeight;
-    if (currentScrollTop > heroHeight) {
-        heroSection.style.setProperty('--hero-opacity', '0');
-    } else {
-        heroSection.style.setProperty('--hero-opacity', '1');
+    // Professional parallax effect for hero background
+    if (heroBackground) {
+        const heroHeight = heroSection.offsetHeight;
+        const scrollPercent = currentScrollTop / heroHeight;
+        
+        if (currentScrollTop <= heroHeight) {
+            // Smooth parallax - background moves slower than scroll
+            const parallaxSpeed = currentScrollTop * 0.5;
+            heroBackground.style.transform = `translateY(${parallaxSpeed}px) scale(${1 + scrollPercent * 0.1})`;
+        }
     }
     
     // Change navbar appearance based on scroll position
@@ -108,7 +112,7 @@ function updateNavbar() {
 window.addEventListener('scroll', () => {
     if (!isScrolling) {
         requestAnimationFrame(() => {
-            updateNavbar();
+            updateNavbarAndParallax();
             isScrolling = false;
         });
         isScrolling = true;

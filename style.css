@@ -122,26 +122,23 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: transparent;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 80px 0 0;
     position: relative;
     overflow: hidden;
-    --hero-opacity: 1;
+    will-change: transform;
 }
 
-.hero::before {
-    content: '';
-    position: fixed;
+.hero-background {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 120%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     z-index: -1;
-    opacity: var(--hero-opacity);
-    transition: opacity 0.3s ease;
-    will-change: opacity;
+    will-change: transform;
 }
 
 .hero-container {
@@ -153,7 +150,7 @@ body {
     gap: 4rem;
     align-items: center;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .hero-title {
@@ -161,6 +158,7 @@ body {
     font-weight: 700;
     margin-bottom: 1rem;
     line-height: 1.2;
+    animation: fadeInUp 1s ease 0.2s both;
 }
 
 .highlight {
@@ -174,6 +172,7 @@ body {
     font-weight: 500;
     margin-bottom: 1.5rem;
     opacity: 0.9;
+    animation: fadeInUp 1s ease 0.4s both;
 }
 
 .hero-description {
@@ -181,12 +180,14 @@ body {
     margin-bottom: 2rem;
     opacity: 0.8;
     line-height: 1.8;
+    animation: fadeInUp 1s ease 0.6s both;
 }
 
 .hero-buttons {
     display: flex;
     gap: 1rem;
     margin-bottom: 3rem;
+    animation: fadeInUp 1s ease 0.8s both;
 }
 
 .btn {
@@ -226,6 +227,7 @@ body {
 .hero-stats {
     display: flex;
     gap: 2rem;
+    animation: fadeInUp 1s ease 1s both;
 }
 
 .stat {
@@ -248,6 +250,7 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
+    animation: fadeInRight 1s ease 0.5s both;
 }
 
 .profile-card {
@@ -885,6 +888,17 @@ html {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
